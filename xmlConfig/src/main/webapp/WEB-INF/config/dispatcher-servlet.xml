@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context-4.3.xsd
+						http://www.springframework.org/schema/aop
+						http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+						http://www.springframework.org/schema/mvc
+						http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
+						
+	<!--
+		dispatcher-servlet은 사용자가 Controller를 호출 시 스프링 컨테이너에 적재하는 것이 기본 설정
+		web.xml에 load-on-startup 설정을 통해 WAS 기동 시 RootContext와 함께 스프링 컨테이너에 적재
+	-->
+	
+	<!--
+		component-scan는 ServletContext에 적재할 StereoType 클래스를 스캔하여 적재
+		하단의 기능은 Controller 애노테이션으로 선언된 클래스들만 ServletContext에 적재하도록 구성
+	-->
+	
+	<context:component-scan base-package="sample.controller">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**/*" />
+			<bean id="interceptor" class="sample.interceptor.SessionInterceptor">
+				<property name="skipUrls">
+					<list>
+						<value>/getStudent.do</value>
+						<value>/getEmployee.ao</value>
+						<value>/getSolider.co</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	<mvc:annotation-driven />
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="order" value="1" />
+		<property name="prefix" value="/WEB-INF/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<!--
+		aop:aspectj-autoproxy는 @EnableAspectJAutoProxy 애노테이션과 같은 기능
+		스프링에게 AOP의 기능을 사용하겠다고 알리는 설정
+		해당 설정이 없으면 AOP 적용 안 됨
+	-->
+	
+	<aop:aspectj-autoproxy />
+	
+</beans>
