@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+						http://www.springframework.org/schema/aop
+						http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+						
+	<bean id="reqInfo" class="sample.model.ReqInfo" scope="request">
+		<aop:scoped-proxy proxy-target-class="true" />
+	</bean>
+
+	<bean id="AspectComponent" class="sample.aspect.AspectComponent" />
+	<bean id="AspectLogger" class="sample.aspect.AspectLogger" />
+	
+	<aop:config>
+		<aop:pointcut id="BeforePointCut" expression="execution(* sample.controller.*Controller.*(..))" />
+		<aop:pointcut id="BeforePointCut2" expression="execution(* sample.controller2.*Controller.*(..))" />
+		<aop:pointcut id="AroundPointCut" expression="execution(* sample.service.*Impl.*(..))" />
+		<aop:aspect ref="AspectComponent">
+			<aop:before method="beforeMethod" pointcut-ref="BeforePointCut" />
+			<aop:before method="beforeMethod" pointcut-ref="BeforePointCut2" />
+			<aop:around method="aroundMethod" pointcut-ref="AroundPointCut" />
+		</aop:aspect>
+	</aop:config>
+
+	<aop:config proxy-target-class="true">
+		<aop:aspect id="aspectLogging" ref="AspectLogger">
+			<aop:pointcut id="servicePointCut" expression="execution(* sample.service.*Impl.*(..))" />
+			<aop:around method="logAround" pointcut-ref="servicePointCut" />
+		</aop:aspect>
+	</aop:config>
+	
+</beans>

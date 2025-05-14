@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="org.sqlite.JDBC" />
+		<property name="url" value="jdbc:sqlite:C:/eGovFrame/workspace/sqlite/solider.db" />
+		<property name="username" value="admin" />
+		<property name="password" value="admin" />
+	</bean>
+	
+	<bean id="postgresDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="url" value="jdbc:postgresql://127.0.0.1:5432/postgres" />
+		<property name="username" value="postres" />
+		<property name="password" value="test1!@#" />
+	</bean>
+	
+	<bean id="mariaDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="org.mariadb.jdbc.Driver" />
+		<property name="url" value="jdbc:mariadb://127.0.0.1:3306/mysql" />
+		<property name="username" value="root" />
+		<property name="password" value="test1!@#" />
+	</bean>
+	
+	<!--bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName" value="org.sqlite.JDBC" />
+		<property name="url" value="jdbc:sqlite:C:/sqlite/solider.db" />
+		<property name="username" value="admin" />
+		<property name="password" value="admin" />
+	</bean>
+	
+	<bean id="postgresHikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="url" value="jdbc:postgresql://127.0.0.1:5432/postgres" />
+		<property name="username" value="postres" />
+		<property name="password" value="xptmxm1!@#" />
+	</bean>
+	
+	<bean id="mariaHikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName" value="org.mariadb.jdbc.Driver" />
+		<property name="url" value="jdbc:mariadb://127.0.0.1:3306/mysql" />
+		<property name="username" value="root" />
+		<property name="password" value="xptmxm1!@#" />
+	</bean>
+	
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<constructor-arg ref="hikariConfig"></constructor-arg>
+	</bean>
+	
+	<bean id="postgresDataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<constructor-arg ref="postgresHikariConfig"></constructor-arg>
+	</bean>
+	
+	<bean id="mariaDataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<constructor-arg ref="mariaHikariConfig"></constructor-arg>
+	</bean-->
+	
+</beans>
